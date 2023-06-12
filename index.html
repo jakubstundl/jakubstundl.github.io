@@ -1,67 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Jakub Stündl</title>
+  </head>
+  <body>
+    <h1>Projects:</h1>
+    <h2>Author: Jakub Stündl</h2>
+    <div></div>
+    <div class="projects">
+      <div class="project">
+        <div class="zombieAssault">
+          <h1>Zombie assault</h1>
+          <h3>Stack:</h3>
+          <p>T3 stack on Nextjs</p>
+          <h3>Overview</h3>
+          <p>
+            Multiplayer zombie shooting game. There are different kinds of
+            monsters, weapons and other accessories. Game is divided into levels
+            to increase the difficulty with the progress.
+          </p>
+          <img src="assets/zombieAssault/ezgif-4-c81d54d996.gif" alt="" />
+          <h3>Multiplayer</h3>
+          <p>
+            To achieve mlutiplayer, the game is fully server-authoritative. The
+            game is played on backend where clients only send moving
+            intructions. All movement instructions are calculated and then all
+            coordinates are broadcast to all clients.
+          </p>
+          <h3>Movement</h3>
+          <p>
+            The movement works in 8 directions. Pressing or releasing one of
+            four movement keys (wsad) changes the react component state. This
+            action triggers the useEffect hook and sends the data to the
+            backend.
+          </p>
+          <div>
+            <p>Object shape sent to the backend:</p>
+            <img src="assets/zombieAssault/moveState.png" alt="" />
+          </div>
+          <p>
+            Another component state is changed when the mouse cursor moves over
+            the div, where the game is displayed. With simple math, the rotation
+            of the player is caldulated from the mouse cursor position. Because
+            the rotation state isn't really important for the game state and
+            also to achieve move fluid experience, the client displays it's own
+            rotation state instead of recieving the state from the backend,
+            while other players' states are recieved from the backend.
+          </p>
+          <div>
+            <p>To get the rotation:</p>
+            <img src="assets/zombieAssault/mouseOverHandler.png" alt="" />
+          </div>
+          <h3>Shooting</h3>
+          <p>
+            Depending on the weapon, there are two functions to handle shooting
+            in the game. Gun equiped by the player can be manual or automat. If
+            the gun is manual, every single bullet is released by a left mouse
+            button click. There is a player rotation state sent to the backend
+            to spawn the bullet. On the other hand, automat weapons work on
+            shooting with holding the left mouse button. The backend starts to
+            read player rotation state from the rotation hook used to rotate
+            players.
+          </p>
+          <h3>Backend</h3>
+          To maintain readability and scaling potential, I used OOP to handle
+          the game logic. The main backend component is the class called
+          Playground.
+          <h4>Playground</h4>
+          <p>
+            The Playground itself holds all the other objects, calculates their
+            positions and its state is displayed on the frontend for all
+            players. There is a interval running in the Playground instance. On
+            the interval tick, it iterates through all the players, monsters and
+            bullets, calling their movement methods and then emitting the states
+            of all to observable on endpoint to which clients are subscribed.
+            Objects of the game are stored in Hashmaps.
+          </p>
+          <img src="assets/zombieAssault/playgroundObjects.png" alt="" />
+          <p>
+            The Playground class is responsible for spawning game objects,
+            moving them, deleting them and changing levels. Clients can also
+            send signal to the backend to pause the game. When this endpoint is
+            triggered, the pause function is called on the playground, which
+            stops the interval from running and the game state stops changing.
+          </p>
+          <h4>Player</h4>
+          <p>
+            It is the simplest object. The class has a few properties as it's
+            input from the client, it's position, the speed it's moving,
+            healthpoints and cash for buying guns.
+          </p>
+          <h4>Monsters</h4>
+          <p>
+            Monsters are instances of the class Enemy. It also has a few
+            properties as hp, speed, damage but also angle and it's target to
+            kill, collision size for bullets and cash recieved by a player when
+            killed.
+          </p>
+          <img src="assets/zombieAssault/monstersProperties.png" alt="" />
+          <p>
+            To initiate a Enemy instance, there is used and object from the
+            array of monsters. The rest of the fields is generated by the
+            playground class as for example coordinates where the monster should
+            spawn.
+          </p>
+          <img src="assets/zombieAssault/enemyConstructor.png" alt="" />
+          <p>
+            For the purpose of monsters walking on the map, the Playground is
+            divided into tiles.
+          </p>
+          <img src="assets/zombieAssault/grid.png" alt="" />
+          <p>
+            where 0 is available for every object. 1 is for walls, which is
+            restricted for all. 2 is the out of the map and is restricted for
+            players but available for monsters and bullets. Both monsters and
+            players have functions to determine on which tile they are located.
+            Monsters then need pathfindig to find the player. For pathfindig I
+            used
+            <a href="https://easystarjs.com/">easystarjs</a>. To use easystarjs,
+            monster iterates through players on the Playground to find the
+            closest player, then it calculates its tile and sets it as a start
+            for the pathfinder and asks the player for its tile to set it as the
+            destination. Easystarjs calculates the route and return an array of
+            the tiles to the destination. Monster then calculates the direction
+            to move while moving tile index when tile of pathfinder is reached.
+            When the distance between the player and the monster is less then
+            certain amount, the pathfinder is no longer called and the monster
+            directly follows the player.
+          </p>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>My first web page</title>
+          <h4>Bullet</h4>
+          <p>
+            When the player is shooting, it also sends information about the gun
+            it is holding.
+          </p>
+          <img src="assets/zombieAssault/gunsProperties.png" alt="" />
+          <p>
+            These information is passed to the BulletController class. Instance
+            of this class is recieving data of players' rotation, it collects
+            data about gun and sends all the information about the bullet to the
+            Playground to spawn it. When the gun is automat, it sets up a timer
+            according to the gun cadence to spawn bullets automatically. There
+            is a BulletController instance for each player.
+          </p>
+          <p>Data for the BulletController:</p>
+          <img src="assets/zombieAssault/bulletData.png" alt="" />
+          <p>
+            Bullets hold many atributes. It's spawn coordinates are taken from
+            the Player object who fired them. Bullet has information of how fast
+            to move and how far, how much hp to take from the target and how
+            many monsters it can go through.
+          </p>
+          <p>Data for initiate an instance of the bullet:</p>
+          <img src="assets/zombieAssault/bulletConstructor.png" alt="" />
+          <p>
+            When the Playground sees and a monter with 0 or less hp, it gives
+            the cash, which monster holds, to the owner of the last bullet the
+            monster has been hit. There is a movement function for the bullet
+            running at Playground interval. In this function the bullet changes
+            it's coordinates according to its speed. While moving, it checks
+            monsters positions and if the distance is less than monster's
+            collision zone, it does damage. Each monster can recieve damage from
+            one bullet only once and when the damage is done, bullet's counter
+            of monsters to pierce goes down by one. Each bullet also has a
+            lifespan. When the Playground sees the bullet's lifespan is less or
+            equal to zero, it removes the bullet from the game. Bullet lifespan
+            is decreased when moving. it is set to zero, when it can't pierce
+            more monsters, and also set to zero when hit the wall.
+          </p>
+          <h4>Turret</h4>
+          <p>
+            With getting more and more cash in the game, players have an ability
+            to build automatic turrets.
+          </p>
+          <img src="assets/zombieAssault/turret.png" alt="" />
+          <p>
+            The turret sends data to the playground to spawn its bullets.
+            Monster cash is recieved by the turret builder.
+          </p>
+          <img src="assets/zombieAssault/turret.gif" alt="" />
 
-</head>
-
-<body>
-
-    <div class="nav-bar">
-        <img src="assets/aperture.svg" alt="logo">
-        <div class="links">
-            <a href="#">Home</a>
-            <a href="#">Wiki</a>
-            <a href="#">Guthub</a>
-            <a href="#">LinkedIn</a>
+          <h3>Game constants</h3>
+          <p>
+            Besides the constants for game objecst like guns and mosters, I use
+            whole set of constants to balance the game.
+          </p>
+          <img src="assets/zombieAssault/gameConstants.png" alt="" />
+          <h3>Game levels</h3>
+          <p>
+            Level data contain an array of monsters, which will be spawned and
+            also how many monster can be present on the Playground at the time.
+          </p>
+          <img src="assets/zombieAssault/levels.png" alt="" />
+          <h3>Endpoints</h3>
+          <p>
+            As a framework above Nextsjs, there is used tRPC to handle the
+            trafic. Here I will describe two endpoints.
+          </p>
+          <img src="assets/zombieAssault/trpc.png" alt="" />
+          <p>
+            The first endpoint uses tRPC mutate hook. The procedure is protected
+            which means the user has to be authorized to acces this endpoint.
+            The input method validates the incoming data and finaly it sends the
+            data to Playground class along with the name of the player. <br />
+            The second input is a subscription hook. It is a websocket
+            implementation of this framework. The frontend hook is subscribed to
+            this subscription. There is an observable sent to the subscribers,
+            which listens to the Playground interval which updates the game
+            state values.
+          </p>
+          
         </div>
+      </div>
     </div>
-    <div class="content">
-        <div>
-
-            <h1 class="name">Jakub Stündl</h1>
-            <h3 class="subtitle">Aspiring junior developer</h3>
-            <div class="two-sentences">
-            <p>I would like to learn as much as possible about programming and coding in general.</p>
-            <p>I'm interested in all kinds of programming languages and operating systems.</p></div>
-        </div>
-        <div>
-            <div class="separator">
-                <div>
-                    <span>- - -</span>
-                    <h2>Technology Wiki</h2>
-                </div>
-            </div>
-            <h3>Logic gate</h3>
-            <p>It is an idealized or physical device implementing a Boolean function; that is, it performs a logical
-                operation on one or more binary inputs and produces a single binary output.</p>
-            <h3>ASCII</h3>
-            <p>It stands for American Standard Code for Information Interchange. Computers can only understand numbers,
-                so it is the numerical representation of a character such as 'a' or '@' or an action of some sort.</p>
-            <h3>Random Acces Memory</h3>
-            <p>It is a form of computer data storage which stores frequently used program instructions to increase the
-                general speed of a system. It can be randomly accessed. Data items to be read or written in almost the
-                same amount of time irrespective of the physical location of data inside the memory.</p>
-            <h3>Programming language</h3>
-            <p>A formal language that specifies a set of instructions that can be used to produce various kinds of
-                output. They generally consist of instructions for a computer and can be used to create programs that
-                implement specific algorithms.</p>
-            <h3>Domain Name System</h3>
-            <p>A hierarchical decentralized naming system for computers, services, or other resources connected to the
-                Internet or a private network. It associates various information with domain names assigned to each of
-                the participating entities.</p>
-            <h3>The Hypertext Transfer Protocol</h3>
-            <p>An application protocol for distributed, collaborative, and hypermedia information systems. It is the
-                foundation of data communication for the World Wide Web. It is the standard protocol to exchange or
-                transfer hypertext.</p>
-
-        </div>
-    </div>
-</body>
-
+  </body>
 </html>

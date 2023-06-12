@@ -1,73 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@700&family=Inconsolata&display=swap');
 
 body {
-    background-image: url(assets/topography.png);
+    box-sizing: content-box;
+    background-color: #1f1f1f;
+    color:bisque;
     margin: 0;
     font-family: 'Inconsolata', monospace;
+   
+    
+}
+.projects{
+    width: 100vw;
+     display: flex;
+    justify-content: center ;
+}
+.project{
+    width: 80%;
+    max-width: 1000px;
+}
+
+img{
     
 }
 
-.content {
-        padding: 10%;
-}
-
-.nav-bar {
-    background-color: #333333;
-    width: auto;
-    padding: 1% 10%;
-    display: flex;
-    align-items: center;
-
-}
-
-.links {
-    display: flex;
-    margin-left: auto;
-    font-family: 'Inconsolata', monospace;
-    font-weight: bold;
-}
-
-a {
-    color: #ff0099;
-    text-transform: uppercase;
-    margin-left: 5%;
-}
-
-.name {
-    font-size: 56px;
-    margin-top: 0px;
-}
-
-.subtitle {
-    font-size: 32px;
-    color: #ff0099;
-}
-.two-sentences p{
-    font-size: 18px;
-}
-
-.separator {
-    margin-top: 40px;
-    display: flex;
-    justify-content: center;
-}
-
-.separator div {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-
-}
-
-h2 {
-    font-size: 40px;
-}
-
-h3 {
-    font-size: 25px;
-}
-
-p {
-    font-size: 15px;
-    line-height: 24px;
-}
