@@ -1,25 +1,59 @@
-@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@700&family=Inconsolata&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Courier+Prime:wght@700&family=Inconsolata&display=swap");
 
 body {
-    box-sizing: content-box;
-    background-color: #1f1f1f;
-    color:bisque;
-    margin: 0;
-    font-family: 'Inconsolata', monospace;
-   
-    
+  box-sizing: content-box;
+  background-color: #1f1f1f;
+  color: bisque;
+  margin: 0;
+  font-family: "Inconsolata", monospace;
 }
-.projects{
-    width: 100vw;
-     display: flex;
-    justify-content: center ;
+.buttonsContainer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
 }
-.project{
-    width: 80%;
-    max-width: 1000px;
+button{  
+  width: 25%;
+  height: 50px;
+  font-family: "Inconsolata", monospace;
+  background-color:#1f1f1f;
+  color: bisque;
+  border-width : thick;
+  border-radius: 10px;
+  font-size: 2em;
+  border-color: bisque;
+}
+button:hover{
+  filter: invert();
+}
+.selectedButton{
+  filter: invert();
+}
+.projects {
+  display: flex;
+  justify-content: center;
+}
+.project {
+  
+  width: 80%;
+  max-width: 1000px;
+}
+a {
+  color: bisque;
+}
+a:visited {
+  color: bisque;
 }
 
-img{
-    
-}
+.imgContainer {
+  width: 100%;
 
+  display: flex;
+  justify-content: center;
+}
+img {
+  max-width: 90vw;
+}
+.hidden {
+  display: none;
+}

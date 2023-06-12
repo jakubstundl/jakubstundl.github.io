@@ -8,21 +8,110 @@
   </head>
   <body>
     <h1>Projects:</h1>
-    <h2>Author: Jakub Stündl</h2>
-    <div></div>
+    <h2>Jakub Stündl</h2>
+    <div class="buttonsContainer">
+      <button id="zombieAssaultBtn" class="selectedButton">
+        Zombie Assault
+      </button>
+      <button id="cryptoScraperBtn">CryptoScraper</button>
+      <button id="weatherAppBtn">Weather App</button>
+    </div>
     <div class="projects">
       <div class="project">
-        <div class="zombieAssault">
-          <h1>Zombie assault</h1>
-          <h3>Stack:</h3>
-          <p>T3 stack on Nextjs</p>
+        <div id="cryptoScraper" class="hidden">
+          <h1>
+            <a href="https://github.com/jakubstundl/cryptoScraper"
+              >CryptoScraper</a
+            >
+          </h1>
+          <h3>Stack</h3>
+          <a href="https://create.t3.gg/">T3 stack on Nextjs</a>, maria-db,
+          docker, raspi-os, puppeteer
+          <p></p>
+          <h3>Overview</h3>
+          <p>App to scrape data from a webpage.</p>
+          <h3>What is being scraped...</h3>
+          <p>
+            Web <a href="https://coincodex.com">coindcodex</a> provides its own
+            AI analysis to predict cryptocurency prices based on coin's previous
+            in the past.
+          </p>
+
+          <div class="imgContainer">
+            <img src="assets/cryptoScraper/etherForcast.png" alt="" />
+          </div>
+          <h3>Why?</h3>
+          <p>To make a list of coins and have all the data in one place.</p>
+          <div class="imgContainer">
+            <img src="assets/cryptoScraper/appScreen.png" alt="" />
+          </div>
+          <h3>Scraping</h3>
+          <p>
+            To mine the data I used a puppeteer library. It uses chromium
+            browser to visit the page. Then it is necesary to tell the puppeteer
+            where the wanted data lies. We can use Xpath, which is a position of
+            the element in the html tree or a CSS selector. Here I had to use a
+            selector, because the page architecture didn't let puppeteer to find
+            the element by the xPath.
+          </p>
+          <div class="imgContainer">
+            <img src="assets/cryptoScraper/selector.png" alt="" />
+          </div>
+          <h3>Database</h3>
+          <p>When the data is scraped, it is sorted into the database.</p>
+          <div class="imgContainer">
+            <img src="assets/cryptoScraper/dbScheme.png" alt="" />
+          </div>
+          <h3>Deployment</h3>
+          <p>
+            For my own purposes, I wanted to deploy the app on my raspberryPi4.
+            To reach maximum compatibility I decided to dockerize the app. The
+            problem with puppeteer running on docker is that its chromium
+            doesn't work. The work around is to download standalone chromium and
+            then connect it to the puppeteer.
+          </p>
+          <div class="imgContainer">
+            <img src="assets/cryptoScraper/chromiumDockerInstall.png" alt="" />
+          </div>
+          <p>
+            Then when puppeteer runs the browser, set the path to previsouly
+            installed chromium and set arguments suitable for running in docker
+            environment.
+          </p>
+          <div class="imgContainer">
+            <img src="assets/cryptoScraper/puppeteerXhromuim.png" alt="" />
+          </div>
+          <h3>How to automate scraping</h3>
+          <p>
+            I set the scraper to update the data twice a day. Sometimes the page
+            isn't available, so every hour there is a timer that checks for
+            empty coin data. For the updating I made suitable endpoints, that
+            would run the updating process. On the raspberryPi4 osperating
+            system I set a cron job to send request to the endpoint to trigger
+            the updating.
+          </p>
+          <div class="imgContainer">
+            <img src="assets/cryptoScraper/cron.png" alt="" />
+          </div>
+        </div>
+        <div id="zombieAssault">
+          <h1>
+            <a href="https://github.com/jakubstundl/zombieAssault"
+              >Zombie assault</a
+            >
+          </h1>
+          <h3>Stack</h3>
+          <a href="https://create.t3.gg/">T3 stack on Nextjs</a>
+          <p></p>
           <h3>Overview</h3>
           <p>
             Multiplayer zombie shooting game. There are different kinds of
             monsters, weapons and other accessories. Game is divided into levels
             to increase the difficulty with the progress.
           </p>
-          <img src="assets/zombieAssault/ezgif-4-c81d54d996.gif" alt="" />
+          <div class="imgContainer">
+            <img src="assets/zombieAssault/ezgif-4-c81d54d996.gif" alt="" />
+          </div>
           <h3>Multiplayer</h3>
           <p>
             To achieve mlutiplayer, the game is fully server-authoritative. The
@@ -39,7 +128,9 @@
           </p>
           <div>
             <p>Object shape sent to the backend:</p>
-            <img src="assets/zombieAssault/moveState.png" alt="" />
+            <div class="imgContainer">
+              <img src="assets/zombieAssault/moveState.png" alt="" />
+            </div>
           </div>
           <p>
             Another component state is changed when the mouse cursor moves over
@@ -52,7 +143,9 @@
           </p>
           <div>
             <p>To get the rotation:</p>
-            <img src="assets/zombieAssault/mouseOverHandler.png" alt="" />
+            <div class="imgContainer">
+              <img src="assets/zombieAssault/mouseOverHandler.png" alt="" />
+            </div>
           </div>
           <h3>Shooting</h3>
           <p>
@@ -79,7 +172,9 @@
             of all to observable on endpoint to which clients are subscribed.
             Objects of the game are stored in Hashmaps.
           </p>
-          <img src="assets/zombieAssault/playgroundObjects.png" alt="" />
+          <div class="imgContainer">
+            <img src="assets/zombieAssault/playgroundObjects.png" alt="" />
+          </div>
           <p>
             The Playground class is responsible for spawning game objects,
             moving them, deleting them and changing levels. Clients can also
@@ -100,19 +195,25 @@
             kill, collision size for bullets and cash recieved by a player when
             killed.
           </p>
-          <img src="assets/zombieAssault/monstersProperties.png" alt="" />
+          <div class="imgContainer">
+            <img src="assets/zombieAssault/monstersProperties.png" alt="" />
+          </div>
           <p>
             To initiate a Enemy instance, there is used and object from the
             array of monsters. The rest of the fields is generated by the
             playground class as for example coordinates where the monster should
             spawn.
           </p>
-          <img src="assets/zombieAssault/enemyConstructor.png" alt="" />
+          <div class="imgContainer">
+            <img src="assets/zombieAssault/enemyConstructor.png" alt="" />
+          </div>
           <p>
             For the purpose of monsters walking on the map, the Playground is
             divided into tiles.
           </p>
-          <img src="assets/zombieAssault/grid.png" alt="" />
+          <div class="imgContainer">
+            <img src="assets/zombieAssault/grid.png" alt="" />
+          </div>
           <p>
             where 0 is available for every object. 1 is for walls, which is
             restricted for all. 2 is the out of the map and is restricted for
@@ -137,7 +238,9 @@
             When the player is shooting, it also sends information about the gun
             it is holding.
           </p>
-          <img src="assets/zombieAssault/gunsProperties.png" alt="" />
+          <div class="imgContainer">
+            <img src="assets/zombieAssault/gunsProperties.png" alt="" />
+          </div>
           <p>
             These information is passed to the BulletController class. Instance
             of this class is recieving data of players' rotation, it collects
@@ -147,7 +250,9 @@
             is a BulletController instance for each player.
           </p>
           <p>Data for the BulletController:</p>
-          <img src="assets/zombieAssault/bulletData.png" alt="" />
+          <div class="imgContainer">
+            <img src="assets/zombieAssault/bulletData.png" alt="" />
+          </div>
           <p>
             Bullets hold many atributes. It's spawn coordinates are taken from
             the Player object who fired them. Bullet has information of how fast
@@ -155,7 +260,9 @@
             many monsters it can go through.
           </p>
           <p>Data for initiate an instance of the bullet:</p>
-          <img src="assets/zombieAssault/bulletConstructor.png" alt="" />
+          <div class="imgContainer">
+            <img src="assets/zombieAssault/bulletConstructor.png" alt="" />
+          </div>
           <p>
             When the Playground sees and a monter with 0 or less hp, it gives
             the cash, which monster holds, to the owner of the last bullet the
@@ -176,45 +283,91 @@
             With getting more and more cash in the game, players have an ability
             to build automatic turrets.
           </p>
-          <img src="assets/zombieAssault/turret.png" alt="" />
+          <div class="imgContainer">
+            <img src="assets/zombieAssault/turret.png" alt="" />
+          </div>
           <p>
             The turret sends data to the playground to spawn its bullets.
             Monster cash is recieved by the turret builder.
           </p>
-          <img src="assets/zombieAssault/turret.gif" alt="" />
+          <div class="imgContainer">
+            <img src="assets/zombieAssault/turret.gif" alt="" />
+          </div>
 
           <h3>Game constants</h3>
           <p>
             Besides the constants for game objecst like guns and mosters, I use
             whole set of constants to balance the game.
           </p>
-          <img src="assets/zombieAssault/gameConstants.png" alt="" />
+          <div class="imgContainer">
+            <img src="assets/zombieAssault/gameConstants.png" alt="" />
+          </div>
           <h3>Game levels</h3>
           <p>
             Level data contain an array of monsters, which will be spawned and
             also how many monster can be present on the Playground at the time.
           </p>
-          <img src="assets/zombieAssault/levels.png" alt="" />
+          <div class="imgContainer">
+            <img src="assets/zombieAssault/levels.png" alt="" />
+          </div>
           <h3>Endpoints</h3>
           <p>
             As a framework above Nextsjs, there is used tRPC to handle the
             trafic. Here I will describe two endpoints.
           </p>
-          <img src="assets/zombieAssault/trpc.png" alt="" />
+          <div class="imgContainer">
+            <img src="assets/zombieAssault/trpc.png" alt="" />
+          </div>
           <p>
             The first endpoint uses tRPC mutate hook. The procedure is protected
             which means the user has to be authorized to acces this endpoint.
             The input method validates the incoming data and finaly it sends the
             data to Playground class along with the name of the player. <br />
-            The second input is a subscription hook. It is a websocket
+            The second endpoint is a subscription. It is a websocket
             implementation of this framework. The frontend hook is subscribed to
             this subscription. There is an observable sent to the subscribers,
             which listens to the Playground interval which updates the game
             state values.
           </p>
-          
+          <h3>Frontend</h3>
+          <p>
+            For the game display I used a div of width and height of the window.
+            This div is in position relative having inside this huge div of the
+            map in position absolute. The map div's offset from the left and top
+            is changed according to player's coordinates. Player is kept in the
+            middle of the screen. All the displayed information is saved in
+            react's useState hooks which are updated by the subscription hooks
+            of the websocket from the backend.
+          </p>
+          <p>
+            In the corner there is also minimap, which takes the same data as
+            actual map, but provides whole game overview. It displays players'
+            positions and all the monsters.
+          </p>
+          <div class="imgContainer">
+            <img src="assets/zombieAssault/minimap.gif" alt="" />
+          </div>
+          <p>
+            For painting the map or editing sprites I used graphical editor
+            Krita.
+          </p>
+          <div class="imgContainer">
+            <img src="assets/zombieAssault/krita.png" alt="" />
+          </div>
+        </div>
+
+        <div id="weatherApp" class="hidden">
+          <h1>
+            <a href="https://github.com/jakubstundl/weatherApp">Weather App</a>
+          </h1>
+          <h3>Stack</h3>
+          Nextjs
+          <p></p>
+          <h3>Overview</h3>
         </div>
       </div>
     </div>
+
+    <script src="script.js"></script>
   </body>
 </html>
