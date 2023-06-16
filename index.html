@@ -360,10 +360,56 @@
           <h1>
             <a href="https://github.com/jakubstundl/weatherApp">Weather App</a>
           </h1>
-          <h3>Stack</h3>
-          Nextjs
-          <p></p>
+          <h3>Stack</h3>          
+          <p>Nextjs, tailwind, leaftlet, nookies, jwt, prisma, cypress, jest</p>
+          <h3>Deployment</h3>
+          <a href="https://weather-app-five-inky.vercel.app/">https://weather-app-five-inky.vercel.app/</a>
           <h3>Overview</h3>
+          <p>
+            Basic weather app using openwethermap api.
+            App uses Leaflet maps as a base for openweathermap map weather layers.
+            There is also possibility of registation and creating custom city list.
+          </p>
+          <h3>Pages</h3>
+          <h4>index.tsx (homepage / )</h4>
+          <p>
+            If registered user visits the site, then his city list is displayed on the main page.
+            If there is no user token found, the app displays random 12 of aproximatelly 80 most populated cities in the world.
+            Every displayed city can be clicked for further details.
+          </p>
+          <p>Icons of the cities contain basic information.</p>
+          <div class="imgContainer">
+            <img src="assets/weatherApp/smallIcon.png" alt="" />
+          </div>
+          <p>
+          There is a city name, the country of the city and local time. Of the weather data,
+          there is displayed the temperature, wind speed and atmosperic pressure. 
+          The wind icon is rotated acording the wind direction.
+          </p>
+          <p>
+          In the top right corner, there is a user login interface, with a link to register page if user has no account yet.</p>
+          <div class="imgContainer">
+            <img src="assets/weatherApp/login.gif" alt="" />
+          </div>
+          <p>The crucial part of the app is the searchbar in the middle.
+            I uploaded a list of more that 70 thousands city into my database, so every city is easily found by the opeweathermap api.
+          Searchbar options contain links to selected city details.
+          </p>
+          <div class="imgContainer">
+            <img src="assets/weatherApp/searchBar.gif" alt="" />
+          </div>
+          <p>Page is rendered on the server storing the api data in the RAM. Before the api calls for cities,
+            the data already in the RAM is checked, wether city data is there and the data isn't older than 30min.
+          </p>
+          <h4>City details</h4>
+          <p>There is a glider with 3h step forecast.</p>
+          <div class="imgContainer">
+            <img src="assets/weatherApp/slider.gif" alt="" />
+          </div>
+          <p>City details contain a map from Leaflet with openweathermap weather layers.</p>
+          <div class="imgContainer">
+            <img src="assets/weatherApp/layers.gif" alt="" />
+          </div>
         </div>
       </div>
     </div>
